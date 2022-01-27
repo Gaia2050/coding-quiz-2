@@ -1,114 +1,109 @@
 var startBtn = document.querySelector("#start-btn")
-var buttonA = document.querySelector("#a")
-var buttonB = document.querySelector("#b")
+var buttonA = document.querySelector("#A")
+var buttonB = document.querySelector("#B")
 var buttonC = document.querySelector("#C")
-var question = document.querySelector("#question") 
+var question = document.querySelector("#question")
 var questionSection = document.querySelector("#question-section")
-console.log(startBtn);
+var startingPage = document.querySelector("#startingPage")
+var position = 0
+var endPageSection = document.querySelector('#endPage')
+var points = 0 
+var timeLeft = 20
+var timerSection = document.querySelector('#timer')
+var timerId;
+// var submitBtn = document.querySelector("#submitBtn")
+// console.log(startBtn);
 startBtn.addEventListener("click", startQuiz)
 function startQuiz() {
-    console.log("startQuiz");
+    // console.log("startQuiz");
+timerSection.textContent = timeLeft;
+timerId = setInterval(timerCountdown, 1000)
+    startingPage.style.display = "none";
+    questionSection.classList.remove("hide")
+
     questionDisplay()
 }
+function timerCountdown() {
+    timeLeft --; 
+    timerSection.textContent = timeLeft
+    if (timeLeft < 0 ) {
+        clearInterval(timerId)
+    }
+}
 function questionDisplay() {
-console.log(quizData);
-console.log(quizData[0])
-console.log(quizData[0].question);
-questionSection.classList.remove("hide")
-    question.innerText = quizData[0].question
-    buttonA.innerText = quizData[0].a
-    buttonB.innerText = quizData[0].b
-    buttonC.innerText = quizData[0].c
+    // console.log(quizData);
+    // console.log(quizData[position])
+    // console.log(quizData[position].question);
+    buttonA.addEventListener("click", nextQuestion);
+    buttonB.addEventListener("click", nextQuestion);
+    buttonC.addEventListener("click", nextQuestion);
+    question.innerText = quizData[position].question
+    buttonA.innerText = quizData[position].a
+    buttonB.innerText = quizData[position].b
+    buttonC.innerText = quizData[position].c
 
-} 
+}
+
+function endPage() {
+    questionSection.style.display = 'none';
+    endPageSection.classList.remove ('hide');
+}
+function nextQuestion() {
+    console.log("click");
+    console.log('before position ++',position);
+    console.log(quizData[position].correct);
+    var correctAnswer = quizData[position].correct 
+    var usersChoice = this.innerHTML
+    console.log(this.innerHTML);
+    if (correctAnswer === usersChoice) {
+        console.log('correct');
+        points += 3 
+        console.log(points);
+    } else {
+        console.log('incorrect')
+
+    }
+    if (position === quizData.length-1) {
+        console.log('lastQuestion');
+        endPage();
+    } else {
+        position++ 
+        questionDisplay();
+    }
+}
 
 
 
+//  window.addEventListener('load', renderQuestion); 
 const quizData = [
     {
         question: "What answer best describes what a string is?",
         a: "An object used to represent and manipulate a sequence of characters.",
         b: "An object that pulls elements together.",
         c: "An object that groups multiple properties together.",
-        correct: "a",
+        correct: "An object used to represent and manipulate a sequence of characters.",
+        incorrect:  "An object that pulls elements together.",
+        incorrect: "An object that groups multiple properties together.",
     },
     {
         question: "What is the use of parseInt()?",
         a: "Function parses an array to return an integer.",
         b: "Function parses a string argument and returns an integer of the specified radix.",
         c: "Function that parses an object and returns an integer",
-        correct: "b",
+        correct: "Function parses a string argument and returns an integer of the specified radix."
     },
     {
         question: "What is an object?",
         a: "A class used to store various array collections.",
         b: "A class used to create different script properties.",
         c: "A class used to store various keyed collections and more complex entities.",
-        correct: "c",
+        correct: "A class used to store various keyed collections and more complex entities."
     },
     {
         question: "What best describes an array?",
         a: "Is a global object used in the construction of arrays.",
         b: "Is a global object used in the construction of a string.",
         c: "Is a global object used in the constructions of parseInt.",
-        correct: "a",
+        correct: "Is a global object used in the construction of arrays."
     },
 ];
-
-const quiz = document.getElementById('section1')
-const answerEls = document.getElementById('answer')
-const questionEl = document.getElementById('question1')
-const a_text = document.getElementById('a_text')
-const b_text = document.getElementById('b-text')
-const c_text = document.getElementById('c_text')
-const submitBtn = document.getElementById('submit')
-
-let currentSection1 = 0
-let score = 0
-
-// loadSection1() 
-
-function loadSection1() {
-
-    // deselectANswers()
-
-    const currentQuizData = [currentSection1] 
-
-    questionEl.innerText = currentQuizData.question
-    a_text.innerText = currentQuizData.a
-    b_text.innerText = currentQuizData.b
-    c_text.innerText = currentQuizData.c
-
-}
-
-
-
-function getSelected() {
-    let answer 
-    answerEls.forEach(answerEl => {
-        if(answerEL.checked) {
-            answer = answerEl.id
-        }
-    })
-    return answer
-}
-
-// submitBtn.addEventListener('click', () => {
-//     const answer = getSelected()
-//     if(answer) {
-//         if(answer === quizData[currentSection1].correct) {
-//             score++
-
-//         }
-//         if(section1 < quizData.length) {
-//             loadQuiz()
-//         }else {
-//             h2.innerHTML =
-            // <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-            // <button onClick="location.reload(">Reload</button>
-
-//         }
-//     }
-// })
-
-const sect = document.querySelector('section');
