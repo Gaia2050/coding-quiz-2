@@ -1,3 +1,4 @@
+console.log('quiz.js loaded');
 var startBtn = document.querySelector("#start-btn")
 var buttonA = document.querySelector("#A")
 var buttonB = document.querySelector("#B")
@@ -7,7 +8,7 @@ var questionSection = document.querySelector("#question-section")
 var startingPage = document.querySelector("#startingPage")
 var position = 0
 var endPageSection = document.querySelector('#endPage')
-var points = 0 
+var points = 0
 var timeLeft = 20
 var timerSection = document.querySelector('#timer')
 var timerId;
@@ -15,18 +16,18 @@ var timerId;
 // console.log(startBtn);
 startBtn.addEventListener("click", startQuiz)
 function startQuiz() {
-    // console.log("startQuiz");
-timerSection.textContent = timeLeft;
-timerId = setInterval(timerCountdown, 1000)
-    startingPage.style.display = "none";
+    console.log("startQuiz");
+    timerSection.textContent = timeLeft;
+    timerId = setInterval(timerCountdown, 1000)
+    startingPage.classList.add("hide");
     questionSection.classList.remove("hide")
 
     questionDisplay()
 }
 function timerCountdown() {
-    timeLeft --; 
+    timeLeft--;
     timerSection.textContent = timeLeft
-    if (timeLeft < 0 ) {
+    if (timeLeft < 0) {
         clearInterval(timerId)
     }
 }
@@ -41,36 +42,40 @@ function questionDisplay() {
     buttonA.innerText = quizData[position].a
     buttonB.innerText = quizData[position].b
     buttonC.innerText = quizData[position].c
-
 }
 
-function endPage() {
-    questionSection.style.display = 'none';
-    endPageSection.classList.remove ('hide');
+function endGame() {
+    console.log('endPage1');
+    questionSection.classList.add("hide");
+    endPageSection.classList.remove('hide');
+    console.log('endPage2');
+    endPageSection.innerHTML = "score: " + points;
+    timerSection.classList.add("hide");
 }
 function nextQuestion() {
     console.log("click");
-    console.log('before position ++',position);
+    console.log('before position ++', position);
     console.log(quizData[position].correct);
-    var correctAnswer = quizData[position].correct 
+    var correctAnswer = quizData[position].correct
     var usersChoice = this.innerHTML
     console.log(this.innerHTML);
     if (correctAnswer === usersChoice) {
         console.log('correct');
-        points += 3 
+        points += 3
         console.log(points);
     } else {
         console.log('incorrect')
 
     }
-    if (position === quizData.length-1) {
-        console.log('lastQuestion');
-        endPage();
+    if (position === quizData.length - 1) {
+        console.log('lastQuestion..calling endGame');
+        endGame();
     } else {
-        position++ 
+        position++
         questionDisplay();
     }
 }
+
 
 
 
@@ -82,7 +87,7 @@ const quizData = [
         b: "An object that pulls elements together.",
         c: "An object that groups multiple properties together.",
         correct: "An object used to represent and manipulate a sequence of characters.",
-        incorrect:  "An object that pulls elements together.",
+        incorrect: "An object that pulls elements together.",
         incorrect: "An object that groups multiple properties together.",
     },
     {
